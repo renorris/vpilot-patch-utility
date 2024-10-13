@@ -1,0 +1,63 @@
+# Default patch file for vPilot 3.9.0
+
+name: Default Patchfile for vPilot 3.9.0
+
+# {HOME} is a valid placeholder for the current user's home directory
+executable_directory: '{HOME}\AppData\Local\vPilot'
+
+# Expected executable file SHA-1 sum (vPilot 3.9.0)
+expected_sum: "35ea7a8ef95bdeb474219519c58f05415259703a"
+
+# "Simple patches" overwrite `data` bytes starting at file offset `offset`
+simple_patches:
+  - name: "remap fsd-jwt ldstr instruction"
+    offset: 0x4A725                      # File offset to start overwriting at
+    data: [0x72, 0xB1, 0x21, 0x01, 0x70] # Data to overwrite with (byte array)
+    # 0x72       = ldstr instruction opcode
+    # 0xB1_21_01 = little endian row ID / zero-based #US heap offset
+    # (0xB12101 is another arbitrary string address that can be overwritten without any operational consequences)
+    # 0x70       = table number (0x70 = #US heap table)
+
+  - name: "disable voice server connections"
+    offset: 0x1F1CC # event handler initiating voice server connection
+    data: [0x2A]    # Return early from event handler
+
+# "Userstring patches" modify existing strings in the #US heap at a given #US-relative `heap_offset`.
+# > Be careful modifying these. A new value must not be longer than the original value
+# > at a given heap offset, or the file will corrupt.
+userstring_patches:
+  - name: custom fsd-jwt URL
+    heap_offset: 0x0121B1
+    # Custom HTTP URL for the fsd-jwt authentication call.
+    # Heap offset 0x0121B1 has 260 bytes of available space. Ensure any modified URL is shorter than this.
+    value: "https://yourfsdserver.com/api/v1/fsd-jwt"
+
+    # Misc cosmetic patches
+  - name: remove VATSIM CID reference
+    heap_offset: 0x4CC3
+    value: "FSD CID:"
+
+  - name: remove VATSIM Password reference
+    heap_offset: 0x4CFB
+    value: "FSD Password:"
+
+  - name: remove VATSIM Server reference
+    heap_offset: 0x5F4C
+    value: "FSD Server:"
+
+  - name: change startup message
+    heap_offset: 0x1732
+    value: "Patched vPilot {0}"
+
+  - name: change config notification message
+    heap_offset: 0x6B7C
+    value: "Please update your non-VATSIM CID and password. Would you like to configure them now?"
+
+# Patch obfuscated values in vPilotConfig.xml
+config_patches:
+  # HTTP URL to obtain a VATSIM-esque status file (see https://status.vatsim.net)
+  network_status_url: "https://yourfsdserver.com/api/v1/data/status.txt"
+  # Cached server list (leave empty to use above network_status_url to obtain server list)
+  cached_servers:
+    # - "myfsdserver.com"
+    # - "myfsdserver2.com"
