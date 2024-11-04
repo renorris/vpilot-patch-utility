@@ -22,6 +22,11 @@ simple_patches:
     offset: 0x1F1CC # event handler initiating voice server connection
     data: [0x2A]    # Return early from event handler
 
+  # optional
+  #- name: "change fast position update interval"
+  #  offset: 0x21884                        # ldc.i4 instruction
+  #  data: [ 0x20, 0x32, 0x00, 0x00, 0x00 ] # 0x20 = opcode, 0x32000000 = (LE int32) interval in milliseconds
+
 # "Userstring patches" modify existing strings in the #US heap at a given #US-relative `heap_offset`.
 # > Be careful modifying these. A new value must not be longer than the original value
 # > at a given heap offset, or the file will corrupt.
