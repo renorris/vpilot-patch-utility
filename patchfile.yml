@@ -1,12 +1,12 @@
-# Default patch file for vPilot 3.10.0
+# Default patch file for vPilot 3.10.1
 
-name: Default Patchfile for vPilot 3.10.0
+name: Default Patchfile for vPilot 3.10.1
 
 # {HOME} is a valid placeholder for the current user's home directory
 executable_directory: '{HOME}\AppData\Local\vPilot'
 
-# Expected executable file SHA-1 sum (vPilot 3.10.0)
-expected_sum: "77477cfc4363ca591e80b4da7fb4ea0381a862a2"
+# Expected executable file SHA-1 sum (vPilot 3.10.1)
+expected_sum: "ef4385c849398ea653a7c55badf4d89d0d91b3bd"
 
 # "Simple patches" overwrite `data` bytes starting at file offset `offset`
 simple_patches:
@@ -19,7 +19,7 @@ simple_patches:
     # 0x70       = table number (0x70 = #US heap table)
 
   - name: "disable voice server connections"
-    offset: 0x4B9FA # event handler initiating voice server connection
+    offset: 0x4B9EC # event handler initiating voice server connection
     data: [0x2A]    # Return early from event handler
 
   # optional
