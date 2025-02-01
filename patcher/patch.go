@@ -29,6 +29,20 @@ func DoRevert(patchfile *PatchFile) (reverted bool, err error) {
 		return
 	}
 
+	// If the .orig files exist but the correct clean version of vPilot is installed (the user
+	// most likely updated vPilot without reverting a patch), remove the .orig files and return.
+	if err = VerifyExecutableChecksum(patchfile); err == nil {
+		if err = os.Remove(patchfile.ExecutablePath + ".orig"); err != nil {
+			fmt.Println("Error deleting backup executable file. Try reinstalling vPilot.\n" + err.Error())
+			return
+		}
+		if err = os.Remove(patchfile.ConfigFilePath + ".orig"); err != nil {
+			fmt.Println("Error deleting backup config file. Try reinstalling vPilot.\n" + err.Error())
+			return
+		}
+		return
+	}
+
 	fmt.Println("Previous patch detected. Reverting...\n")
 
 	// Revert executable
