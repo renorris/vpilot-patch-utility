@@ -1,40 +1,35 @@
-# Default patch file for vPilot 3.10.1
+# Default patch file for vPilot 3.11.0
 
-name: Default Patchfile for vPilot 3.10.1
+name: Default Patchfile for vPilot 3.11.0
 
 # {HOME} is a valid placeholder for the current user's home directory
 executable_directory: '{HOME}\AppData\Local\vPilot'
 
-# Expected executable file SHA-1 sum (vPilot 3.10.1)
-expected_sum: "ef4385c849398ea653a7c55badf4d89d0d91b3bd"
+# Expected executable file SHA-1 sum (vPilot 3.11.0)
+expected_sum: "827779d3184b293cb6657fe587279df4bf30c8a5"
 
 # "Simple patches" overwrite `data` bytes starting at file offset `offset`
 simple_patches:
   - name: "remap fsd-jwt ldstr instruction"
-    offset: 0x4B35D                      # File offset to start overwriting at
-    data: [0x72, 0xE1, 0x35, 0x00, 0x70] # Data to overwrite with (byte array)
+    offset: 0x4B3C5                      # File offset to start overwriting at
+    data: [0x72, 0xA2, 0xD2, 0x00, 0x70] # Data to overwrite with (byte array)
     # 0x72       = ldstr instruction opcode
-    # 0xE1_35_00 = little endian row ID / zero-based #US heap offset
-    # (0xE13500 is another arbitrary string address that can be overwritten without any operational consequences)
+    # 0xA2_D2_00 = little endian row ID / zero-based #US heap offset
+    # (0x00D2A2 is another arbitrary string address that can be overwritten without any operational consequences)
     # 0x70       = table number (0x70 = #US heap table)
 
   - name: "disable voice server connections"
-    offset: 0x4B9EC # event handler initiating voice server connection
+    offset: 0x4BA54 # event handler initiating voice server connection
     data: [0x2A]    # Return early from event handler
-
-  # optional
-  #- name: "change fast position update interval"
-  #  offset: 0x21925                        # ldc.i4 instruction
-  #  data: [ 0x20, 0x32, 0x00, 0x00, 0x00 ] # 0x20 = opcode, 0x32000000 = (LE int32) interval in milliseconds
 
 # "Userstring patches" modify existing strings in the #US heap at a given #US-relative `heap_offset`.
 # > Be careful modifying these. A new value must not be longer than the original value
 # > at a given heap offset, or the file will corrupt.
 userstring_patches:
   - name: custom fsd-jwt URL
-    heap_offset: 0x35E1
+    heap_offset: 0xD2A2
     # Custom HTTP URL for the fsd-jwt authentication call.
-    # Heap offset 0x35E1 has 136 bytes of available space. Ensure any modified URL is shorter than this.
+    # Heap offset 0xD2A2 has 160 bytes of available space. Ensure any modified URL is shorter than this.
     value: "https://yourfsdserver.com/api/v1/fsd-jwt"
 
     # Misc cosmetic patches
