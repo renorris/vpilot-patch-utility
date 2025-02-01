@@ -3,7 +3,7 @@
 Patch utility for the vPilot pilot client enabling custom FSD server compatibility.
 
 Currently supported versions:
-> `3.10.1 | vPilot.exe SHA1 = ef4385c849398ea653a7c55badf4d89d0d91b3bd`
+> `3.11.0 | vPilot.exe SHA1 = 827779d3184b293cb6657fe587279df4bf30c8a5`
 
 ## Features:
 
