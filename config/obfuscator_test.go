@@ -15,11 +15,21 @@ func TestVPilotObfuscatorKey(t *testing.T) {
 }
 
 func TestDeobfuscateFromBase64(t *testing.T) {
-	input := "pZ9u441bE4a2NCGgqMxKNvwAIy0qEA+AwXB8c3sV90c="
-	expectedResult := "http://status.vatsim.net/"
+	// Cached server
+	input := "vN0yvTPHb8iCqOBSDgJOad3JH+XEldSS/AAjLSoQD4BBXdzgOioHVg=="
+	expectedResult := "AUTOMATIC|fsd.connect.vatsim.net"
 	key := ConfigObfuscatorKey
 
 	plaintext, err := DeobfuscateFromBase64([]byte(input), key)
+	assert.Nil(t, err)
+	assert.Equal(t, expectedResult, string(plaintext))
+
+	// Status URL
+	input = "pZ9u441bE4a2NCGgqMxKNvwAIy0qEA+AwXB8c3sV90c="
+	expectedResult = "http://status.vatsim.net/"
+	key = ConfigObfuscatorKey
+
+	plaintext, err = DeobfuscateFromBase64([]byte(input), key)
 	assert.Nil(t, err)
 	assert.Equal(t, expectedResult, string(plaintext))
 }

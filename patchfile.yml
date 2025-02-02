@@ -57,7 +57,9 @@ userstring_patches:
 config_patches:
   # HTTP URL to obtain a VATSIM-esque status file (see https://status.vatsim.net)
   network_status_url: "https://yourfsdserver.com/api/v1/data/status.txt"
+
   # Cached server list (leave empty to use above network_status_url to obtain server list)
+  # The server name and the address must be delimited by a `|` character e.g. `MYSERVER|myfsdserver.com`
   cached_servers:
-    # - "myfsdserver.com"
-    # - "myfsdserver2.com"
+    # - "MY-SERVER|myfsdserver.com"
+    # - "MY-SERVER-2|myfsdserver2.com"
