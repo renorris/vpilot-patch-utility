@@ -1,12 +1,12 @@
-# Default patch file for vPilot 3.11.0
+# Default patch file for vPilot 3.11.1
 
-name: Default Patchfile for vPilot 3.11.0
+name: Default Patchfile for vPilot 3.11.1
 
 # {HOME} is a valid placeholder for the current user's home directory
 executable_directory: '{HOME}\AppData\Local\vPilot'
 
-# Expected executable file SHA-1 sum (vPilot 3.11.0)
-expected_sum: "827779d3184b293cb6657fe587279df4bf30c8a5"
+# Expected executable file SHA-1 sum (vPilot 3.11.1)
+expected_sum: "19edcce42b0f9dddc0de0c5cf5c79ed1c7018728"
 
 # "Simple patches" overwrite `data` bytes starting at file offset `offset`
 simple_patches:
