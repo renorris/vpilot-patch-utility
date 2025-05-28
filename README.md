@@ -1,3 +1,6 @@
+> [!WARNING]  
+> This project has been archived. Please see the [openfsd client patch utility](https://github.com/renorris/openfsd-client-patch-utility).
+
 ## vPilot Patch Utility
 
 Patch utility for the vPilot pilot client enabling custom FSD server compatibility.
